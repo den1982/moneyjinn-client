@@ -1,13 +1,15 @@
-<md-card class="app-input-section">
-  <md-card-title>
-    <span class="md-title">Willkommen! Geben Sie Ihre Nutzerdaten ein und klicken Sie auf „Anmelden“.</span>
-  </md-card-title>
-  <md-card-content>
-    <md-input [(ngModel)]="username" placeholder="Username"></md-input>
-    <br/>
-    <md-input [(ngModel)]="password" placeholder="Password" type="password"></md-input>
-  </md-card-content>
-  <md-card-actions align="end">
-    <button md-button (click)="doLogin()">Anmelden</button>
-  </md-card-actions>
-</md-card>
+<div class="app-content">
+  <md-card class="app-input-section">
+    <md-card-title>
+      <span class="md-title">Willkommen! Geben Sie Ihre Nutzerdaten ein und klicken Sie auf „Anmelden“.</span>
+    </md-card-title>
+    <md-card-content>
+      <md-input [(ngModel)]="username" placeholder="Username"></md-input>
+      <br/>
+      <md-input [(ngModel)]="password" placeholder="Password" type="password"></md-input>
+    </md-card-content>
+    <md-card-actions align="end">
+      <button md-button (click)="doLogin()">Anmelden</button>
+    </md-card-actions>
+  </md-card>
+</div>
