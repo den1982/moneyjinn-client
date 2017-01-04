@@ -11,11 +11,10 @@ export class AppComponent {
   password: string;
 
   constructor(private restUserService: RESTUserService) {
-
   }
 
   doLogin() {
-    var response = this.restUserService.getUserSettingsForStartup(this.username, this.password);
-    console.log("userId: " + response.userId);
+    let observable = this.restUserService.getUserSettingsForStartup(this.username);
+    observable.subscribe(data => console.log("userId: " + data.userId));
   }
 }
