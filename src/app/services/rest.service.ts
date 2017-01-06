@@ -1,10 +1,8 @@
 import {Injectable} from "@angular/core";
 import {Headers, Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
-import {Md5} from 'ts-md5/dist/md5';
-
-///<reference path="../../../typings/cryptojs/cryptojs.d.ts" />
-
+import {Md5} from "ts-md5/dist/md5";
+import * as CryptoJS from "crypto-js";
 
 @Injectable()
 export abstract class RESTService {
@@ -20,9 +18,11 @@ export abstract class RESTService {
 
   getHeaders(): Headers {
 
-    let md5 = Md5.hashStr('blah blah blah');
-    console.log(md5);
-    CryptoJS.HmacMD5("test", "test");
+    let md5 = Md5.hashStr('body');
+    console.log("MD5: " + md5);
+    let hmac = CryptoJS.HmacSHA1("test", "test");
+    console.log("HMAC SHA1: " + hmac.toString());
+
     return this.headers;
   }
 
