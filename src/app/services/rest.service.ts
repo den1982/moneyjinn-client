@@ -2,7 +2,8 @@ import {Injectable} from "@angular/core";
 import {Headers, Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {Md5} from 'ts-md5/dist/md5';
-import {CryptoJS} from 'crypto-js';
+
+///<reference path="../../../typings/cryptojs/cryptojs.d.ts" />
 
 
 @Injectable()
@@ -21,6 +22,7 @@ export abstract class RESTService {
 
     let md5 = Md5.hashStr('blah blah blah');
     console.log(md5);
+    CryptoJS.HmacMD5("test", "test");
     return this.headers;
   }
 
