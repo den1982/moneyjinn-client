@@ -5,6 +5,7 @@ import {HttpModule} from "@angular/http";
 import {MaterialModule} from "@angular/material";
 import {AppComponent} from "./app.component";
 import {RESTUserService} from "./services/restuser.service";
+import {UserService} from "./services/user.service";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import {RESTUserService} from "./services/restuser.service";
     HttpModule,
     MaterialModule.forRoot()
   ],
-  providers: [RESTUserService],
+  providers: [RESTUserService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
