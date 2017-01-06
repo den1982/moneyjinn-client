@@ -50,7 +50,7 @@ export abstract class RESTService {
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  getRESTAuthorization(secret, method, contentType, urlWithoutDomain, date, body, username): string {
+  private getRESTAuthorization(secret, method, contentType, urlWithoutDomain, date, body, username): string {
     if (secret == null) {
       secret = " "
     }
