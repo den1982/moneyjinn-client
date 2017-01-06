@@ -3,7 +3,7 @@ import {Headers, Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {Md5} from 'ts-md5/dist/md5';
 
-///<reference path="../../../../typings/cryptojs/cryptojs.d.ts" />
+///<reference path="../../../typings/cryptojs/cryptojs.d.ts" />
 
 
 @Injectable()
