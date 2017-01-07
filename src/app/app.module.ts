@@ -11,6 +11,7 @@ import {CheckLoginService} from "./services/check-login.service";
 import {UserService} from "./services/user.service";
 import {RESTUserService} from "./services/rest/restuser.service";
 import {ErrorService} from "./services/error.service";
+import {ErrorComponent} from "./components/error/error.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -23,7 +24,8 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

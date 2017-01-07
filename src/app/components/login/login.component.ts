@@ -4,7 +4,6 @@ import {User} from "../../model/user";
 import {UserService} from "../../services/user.service";
 import {RESTUserService} from "../../services/rest/restuser.service";
 import {ErrorService} from "../../services/error.service";
-import {ErrorResponse} from "../../model/rest/error-response";
 import {Error} from "../../model/error";
 
 @Component({
@@ -27,21 +26,13 @@ export class LoginComponent implements OnInit {
   public doLogin() {
     let user = new User(this.username, this.password);
     this.userService.setCurrentUser(user);
-
-    let observable = this.restUserService.getUserSettingsForStartup(this.username);
-    observable.subscribe(data => this.processResponse(data));
+    this.restUserService.getUserSettingsForStartup(this.username, response => this.processResponseCallback(response));
   }
 
-  private processResponse(response: any) {
-    if (response != null) {
-      if (response.error != null) {
-        this.errorService.addError(response.error as ErrorResponse);
-        this.errors = this.errorService.getErrors();
-      } else if (response.getUserSettingsForStartupResponse != null) {
-        this.userService.getCurrentUser().setLoggedIn(true);
-        console.log("userId: " + response.userId);
-        this.router.navigate(['/home']);
-      }
+  private processResponseCallback(response: any) {
+    if (response != null && response.getUserSettingsForStartupResponse != null) {
+      this.userService.getCurrentUser().setLoggedIn(true);
+      this.router.navigate(['/home']);
     }
   }
 

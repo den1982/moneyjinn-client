@@ -1,9 +1,11 @@
 import {Injectable} from "@angular/core";
-import {Headers, Http, Response} from "@angular/http";
+import {Headers, Http} from "@angular/http";
 import {Observable} from "rxjs";
 import {Md5} from "ts-md5/dist/md5";
 import * as CryptoJS from "crypto-js";
 import {UserService} from "../user.service";
+import {ErrorService} from "../error.service";
+import {ErrorResponse} from "../../model/rest/error-response";
 
 @Injectable()
 export abstract class RESTService {
@@ -16,17 +18,33 @@ export abstract class RESTService {
   private static AUTH_HEADER_SEPERATOR = ":";
 
   constructor(private http: Http,
-              protected userService: UserService) {
+              protected userService: UserService,
+              private errorService: ErrorService) {
   }
 
   abstract getUsecaseUrl(): string;
 
-  public get(url): Observable<Response> {
+  public handleErrors(rawResponse: any, callback: Function) {
+    let response: any = null;
+
+    if (rawResponse != null) {
+      if (rawResponse.error != null) {
+        this.errorService.setError(rawResponse.error as ErrorResponse);
+      } else {
+        response = rawResponse;
+      }
+    }
+
+    callback(response);
+  }
+
+  public get(url, callback: Function) {
     let completeUrl = this.baseUrl + this.getUsecaseUrl() + url;
 
-    return this.http
+    this.http
       .get(completeUrl, {headers: this.getHeaders(completeUrl, 'GET', null)})
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .subscribe(response => this.handleErrors(response.json(), callback));
   }
 
   private getHeaders(completeUrl: string, method: string, body: string): Headers {
@@ -63,10 +81,6 @@ export abstract class RESTService {
     let stringToSign = method + "\n" + bodyMD5 + "\n" + contentType + "\n" + date + "\n\n" + urlWithoutDomain;
     let hmac1 = CryptoJS.HmacSHA1(stringToSign, hashedSecret);
     let base64Hmac = btoa(hmac1);
-
-    console.log("stringToSign: " + stringToSign);
-    console.log("HMAC SHA1: " + hmac1.toString());
-    console.log("Base64 HMAC SHA1: " + base64Hmac);
 
     return RESTService.AUTH_HEADER_PREFIX + username + RESTService.AUTH_HEADER_SEPERATOR + base64Hmac;
   }

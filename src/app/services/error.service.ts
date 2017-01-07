@@ -9,9 +9,13 @@ export class ErrorService {
   constructor() {
   }
 
+  public setError(errorResponse: ErrorResponse) {
+    this.errors.splice(0, this.errors.length);
+    this.addError(errorResponse);
+  }
+
   public addError(errorResponse: ErrorResponse) {
     this.errors.push(new Error(errorResponse.code, errorResponse.message));
-    console.log('ERROR: ' + errorResponse.message);
   }
 
   public getErrors(): Error[] {

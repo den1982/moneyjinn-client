@@ -3,6 +3,7 @@
     <md-card-title>
       <span class="md-title">Willkommen! Geben Sie Ihre Nutzerdaten ein und klicken Sie auf „Anmelden“.</span>
       <br>
+      <app-error></app-error>
       <span class="md-error" *ngFor="let error of errors">{{error.message}}<br></span>
     </md-card-title>
     <md-card-content>
