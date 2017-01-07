@@ -1,15 +1,16 @@
 import {Injectable} from "@angular/core";
-import {GetUserSettingsForStartupResponse} from "../model/rest/get-user-settings-for-startup-response";
+import {GetUserSettingsForStartupResponse} from "../../model/rest/get-user-settings-for-startup-response";
 import {Http} from "@angular/http";
 import "rxjs/add/operator/toPromise";
 import {Observable} from "rxjs";
 import {RESTService} from "./rest.service";
-import {UserService} from "./user.service";
+import {UserService} from "../user.service";
 
 @Injectable()
 export class RESTUserService extends RESTService {
 
-  constructor(http: Http, userService: UserService) {
+  constructor(http: Http,
+              userService: UserService) {
     super(http, userService);
   }
 

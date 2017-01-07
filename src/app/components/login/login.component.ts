@@ -2,7 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {User} from "../../model/user";
 import {UserService} from "../../services/user.service";
-import {RESTUserService} from "../../services/restuser.service";
+import {RESTUserService} from "../../services/rest/restuser.service";
 import {GetUserSettingsForStartupResponse} from "../../model/rest/get-user-settings-for-startup-response";
 
 @Component({

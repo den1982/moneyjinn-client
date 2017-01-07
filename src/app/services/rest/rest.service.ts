@@ -3,7 +3,7 @@ import {Headers, Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {Md5} from "ts-md5/dist/md5";
 import * as CryptoJS from "crypto-js";
-import {UserService} from "./user.service";
+import {UserService} from "../user.service";
 
 @Injectable()
 export abstract class RESTService {
@@ -15,14 +15,21 @@ export abstract class RESTService {
   private static AUTH_HEADER_PREFIX = "MNF";
   private static AUTH_HEADER_SEPERATOR = ":";
 
-  constructor(private http: Http, protected userService: UserService) {
+  constructor(private http: Http,
+              protected userService: UserService) {
   }
 
-  getBaseUrl(): string {
-    return this.baseUrl;
+  abstract getUsecaseUrl(): string;
+
+  public get(url): Observable<Response> {
+    let completeUrl = this.baseUrl + this.getUsecaseUrl() + url;
+
+    return this.http
+      .get(completeUrl, {headers: this.getHeaders(completeUrl, 'GET', null)})
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  getHeaders(completeUrl: string, method: string, body: string): Headers {
+  private getHeaders(completeUrl: string, method: string, body: string): Headers {
     let user = this.userService.getCurrentUser();
     let headers = new Headers({'Content-Type': this.contentType});
 
@@ -39,17 +46,6 @@ export abstract class RESTService {
     return headers;
   }
 
-
-  abstract getUsecaseUrl(): string;
-
-  get(url): Observable<Response> {
-    let completeUrl = this.getBaseUrl() + this.getUsecaseUrl() + url;
-
-    return this.http
-      .get(completeUrl, {headers: this.getHeaders(completeUrl, 'GET', null)})
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-  }
-
   private getRESTAuthorization(secret, method, contentType, urlWithoutDomain, date, body, username): string {
     if (secret == null) {
       secret = " "
@@ -57,6 +53,8 @@ export abstract class RESTService {
 
     let bodyMD5: string = "";
     if (body != null) {
+      // TODO: try this out with the first request which has a body. Maybe we can reduce the dependencies.
+      //bodyMD5 = CryptoJS.MD5(body).toString();
       bodyMD5 = Md5.hashStr(body).toString();
     }
 

@@ -1,19 +1,19 @@
-import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 import {MaterialModule} from "@angular/material";
-import {AppComponent} from "./app.component";
-import {RESTUserService} from "./services/restuser.service";
-import {UserService} from "./services/user.service";
-import {HomeComponent} from "./components/home/home.component";
+import {BrowserModule} from "@angular/platform-browser";
 import {Routes, RouterModule} from "@angular/router";
+import {AppComponent} from "./app.component";
+import {HomeComponent} from "./components/home/home.component";
 import {LoginComponent} from "./components/login/login.component";
-
+import {CheckLoginService} from "./services/check-login.service";
+import {UserService} from "./services/user.service";
+import {RESTUserService} from "./services/rest/restuser.service";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent, canActivate: [UserService]},
+  {path: 'home', component: HomeComponent, canActivate: [CheckLoginService]},
   {path: 'login', component: LoginComponent}
 ];
 
@@ -31,7 +31,7 @@ const routes: Routes = [
     MaterialModule.forRoot(),
     RouterModule.forRoot(routes)
   ],
-  providers: [RESTUserService, UserService],
+  providers: [RESTUserService, UserService, CheckLoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
