@@ -6,14 +6,20 @@
       <app-error></app-error>
     </md-card-title>
     <md-card-content>
-      <md-input placeholder="Username"
-                [(ngModel)]="username"
-                (keyup.enter)="doLogin()"></md-input>
+      <md-input-container>
+        <input md-input
+               placeholder="Username"
+               [(ngModel)]="username"
+               (keyup.enter)="doLogin()">
+      </md-input-container>
       <br/>
-      <md-input placeholder="Password"
-                type="password"
-                [(ngModel)]="password"
-                (keyup.enter)="doLogin()"></md-input>
+      <md-input-container>
+        <input md-input
+               placeholder="Password"
+               type="password"
+               [(ngModel)]="password"
+               (keyup.enter)="doLogin()">
+      </md-input-container>
     </md-card-content>
     <md-card-actions align="end">
       <button md-button (click)="doLogin()">Anmelden</button>
