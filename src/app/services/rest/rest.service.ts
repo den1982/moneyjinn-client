@@ -24,27 +24,27 @@ export abstract class RESTService {
 
   abstract getUsecaseUrl(): string;
 
-  public handleErrors(rawResponse: any, callback: Function) {
-    let response: any = null;
-
-    if (rawResponse != null) {
-      if (rawResponse.error != null) {
-        this.errorService.setError(rawResponse.error as ErrorResponse);
-      } else {
-        response = rawResponse;
-      }
-    }
-
-    callback(response);
-  }
-
-  public get(url, callback: Function) {
+  public get<T>(url, jsonRootValue, callback: Function) {
     let completeUrl = this.baseUrl + this.getUsecaseUrl() + url;
 
     this.http
       .get(completeUrl, {headers: this.getHeaders(completeUrl, 'GET', null)})
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
-      .subscribe(response => this.handleErrors(response.json(), callback));
+      .subscribe(response => this.handleResponse<T>(response.json(), jsonRootValue, callback));
+  }
+
+  private handleResponse<T>(rawResponse: any, jsonRootValue: string, callback: Function) {
+    let response: T;
+
+    if (rawResponse != null) {
+      if (rawResponse.hasOwnProperty("error")) {
+        this.errorService.setError(rawResponse.error as ErrorResponse);
+      } else if (rawResponse.hasOwnProperty(jsonRootValue)) {
+        response = rawResponse[jsonRootValue] as T;
+      }
+    }
+
+    callback(response);
   }
 
   private getHeaders(completeUrl: string, method: string, body: string): Headers {

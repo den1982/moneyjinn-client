@@ -4,12 +4,16 @@
       <span class="md-title">Willkommen! Geben Sie Ihre Nutzerdaten ein und klicken Sie auf „Anmelden“.</span>
       <br>
       <app-error></app-error>
-      <span class="md-error" *ngFor="let error of errors">{{error.message}}<br></span>
     </md-card-title>
     <md-card-content>
-      <md-input [(ngModel)]="username" placeholder="Username"></md-input>
+      <md-input placeholder="Username"
+                [(ngModel)]="username"
+                (keyup.enter)="doLogin()"></md-input>
       <br/>
-      <md-input [(ngModel)]="password" placeholder="Password" type="password"></md-input>
+      <md-input placeholder="Password"
+                type="password"
+                [(ngModel)]="password"
+                (keyup.enter)="doLogin()"></md-input>
     </md-card-content>
     <md-card-actions align="end">
       <button md-button (click)="doLogin()">Anmelden</button>

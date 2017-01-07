@@ -3,8 +3,8 @@ import {Router} from "@angular/router";
 import {User} from "../../model/user";
 import {UserService} from "../../services/user.service";
 import {RESTUserService} from "../../services/rest/restuser.service";
-import {ErrorService} from "../../services/error.service";
 import {Error} from "../../model/error";
+import {GetUserSettingsForStartupResponse} from "../../model/rest/get-user-settings-for-startup-response";
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
 
   constructor(private restUserService: RESTUserService,
               private userService: UserService,
-              private errorService: ErrorService,
               private router: Router) {
   }
 
@@ -29,8 +28,8 @@ export class LoginComponent implements OnInit {
     this.restUserService.getUserSettingsForStartup(this.username, response => this.processResponseCallback(response));
   }
 
-  private processResponseCallback(response: any) {
-    if (response != null && response.getUserSettingsForStartupResponse != null) {
+  private processResponseCallback(response: GetUserSettingsForStartupResponse) {
+    if (response != null) {
       this.userService.getCurrentUser().setLoggedIn(true);
       this.router.navigate(['/home']);
     }
