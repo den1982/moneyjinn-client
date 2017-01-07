@@ -22,8 +22,20 @@ export abstract class RESTService {
               private errorService: ErrorService) {
   }
 
-  abstract getUsecaseUrl(): string;
+  /**
+   * Returns the "subdirectory" part of the URL which is specific to the REST-Controller on serverside.
+   */
+  protected abstract getUsecaseUrl(): string;
 
+  /**
+   * Issues a HTTP GET Call with the given parameters
+   * @param url
+   * The usecase specific part of the URL.
+   * @param jsonRootValue
+   * The name of the root value in the JSON which contains the payload (see: <b>WRAP_ROOT_VALUE</b> on <a href="https://github.com/FasterXML/jackson-databind/wiki/Serialization-features">Serialization features</a>)
+   * @param callback
+   * The callback method which will be executed when the server did respond and the response was not an {@link ErrorResponse}
+   */
   public get<T>(url, jsonRootValue, callback: Function) {
     let completeUrl = this.baseUrl + this.getUsecaseUrl() + url;
 
@@ -33,6 +45,16 @@ export abstract class RESTService {
       .subscribe(response => this.handleResponse<T>(response.json(), jsonRootValue, callback));
   }
 
+  /**
+   * This method checks if the response received by the server consists of an {@link ErrorResponse} or the expected usecase specific response.
+   *
+   * @param rawResponse
+   * The response received from the server;
+   * @param jsonRootValue
+   * The name of the root value in the JSON which contains the payload (see: <b>WRAP_ROOT_VALUE</b> on <a href="https://github.com/FasterXML/jackson-databind/wiki/Serialization-features">Serialization features</a>)
+   * @param callback
+   * The callback method which will be executed when the server did respond and the response was not an {@link ErrorResponse}
+   */
   private handleResponse<T>(rawResponse: any, jsonRootValue: string, callback: Function) {
     let response: T;
 
@@ -47,6 +69,14 @@ export abstract class RESTService {
     callback(response);
   }
 
+  /**
+   * Returns the headers used for every server query (Content-Type, Authorization, Requestdate)
+   *
+   * @param completeUrl
+   * @param method
+   * @param body
+   * @returns {Headers}
+   */
   private getHeaders(completeUrl: string, method: string, body: string): Headers {
     let user = this.userService.getCurrentUser();
     let headers = new Headers({'Content-Type': this.contentType});
@@ -64,6 +94,29 @@ export abstract class RESTService {
     return headers;
   }
 
+  /**
+   * This function works basically as described in
+   * <a href= "http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html" >Amazon
+   * Simple Storage Service - REST Authentication</a>
+   *
+   * TODO: Change the whole authorization procedure as it is not safe to store the users password on client side.
+   *
+   * @param secret
+   * The password of the logged in user (cleartext)
+   * @param method
+   * The HTTP method
+   * @param contentType
+   * The content of the HTTP Header "Content-Type"
+   * @param urlWithoutDomain
+   * The url without the domain-part
+   * @param date
+   * The content of the HTTP Header "Requestdate"
+   * @param body
+   * The body (which is sent with PUT, POST....)
+   * @param username
+   * The username of the logged in user
+   * @return Content of the Authorization Header
+   */
   private getRESTAuthorization(secret, method, contentType, urlWithoutDomain, date, body, username): string {
     if (secret == null) {
       secret = " "

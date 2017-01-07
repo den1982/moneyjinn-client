@@ -3,7 +3,6 @@ import {Router} from "@angular/router";
 import {User} from "../../model/user";
 import {UserService} from "../../services/user.service";
 import {RESTUserService} from "../../services/rest/restuser.service";
-import {Error} from "../../model/error";
 import {GetUserSettingsForStartupResponse} from "../../model/rest/get-user-settings-for-startup-response";
 
 @Component({
@@ -15,7 +14,6 @@ export class LoginComponent implements OnInit {
 
   username: string;
   password: string;
-  errors: Error[];
 
   constructor(private restUserService: RESTUserService,
               private userService: UserService,

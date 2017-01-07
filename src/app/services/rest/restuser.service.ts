@@ -15,11 +15,11 @@ export class RESTUserService extends RESTService {
     super(http, userService, errorService);
   }
 
-  getUsecaseUrl(): string {
+  protected getUsecaseUrl(): string {
     return 'user/';
   }
 
-  getUserSettingsForStartup(username: string, callback: Function): void {
+  public getUserSettingsForStartup(username: string, callback: Function): void {
     super.get<GetUserSettingsForStartupResponse>('getUserSettingsForStartup/' + username, "getUserSettingsForStartupResponse", callback);
   }
 
