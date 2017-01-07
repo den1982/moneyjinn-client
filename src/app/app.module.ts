@@ -10,6 +10,7 @@ import {LoginComponent} from "./components/login/login.component";
 import {CheckLoginService} from "./services/check-login.service";
 import {UserService} from "./services/user.service";
 import {RESTUserService} from "./services/rest/restuser.service";
+import {ErrorService} from "./services/error.service";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -31,7 +32,7 @@ const routes: Routes = [
     MaterialModule.forRoot(),
     RouterModule.forRoot(routes)
   ],
-  providers: [RESTUserService, UserService, CheckLoginService],
+  providers: [RESTUserService, UserService, ErrorService, CheckLoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

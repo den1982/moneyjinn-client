@@ -3,7 +3,9 @@ import {Router} from "@angular/router";
 import {User} from "../../model/user";
 import {UserService} from "../../services/user.service";
 import {RESTUserService} from "../../services/rest/restuser.service";
-import {GetUserSettingsForStartupResponse} from "../../model/rest/get-user-settings-for-startup-response";
+import {ErrorService} from "../../services/error.service";
+import {ErrorResponse} from "../../model/rest/error-response";
+import {Error} from "../../model/error";
 
 @Component({
   selector: 'app-login',
@@ -14,9 +16,12 @@ export class LoginComponent implements OnInit {
 
   username: string;
   password: string;
+  errors: Error[];
 
-  constructor(private restUserService: RESTUserService
-    , private userService: UserService, private router: Router) {
+  constructor(private restUserService: RESTUserService,
+              private userService: UserService,
+              private errorService: ErrorService,
+              private router: Router) {
   }
 
   public doLogin() {
@@ -27,9 +32,17 @@ export class LoginComponent implements OnInit {
     observable.subscribe(data => this.processResponse(data));
   }
 
-  private processResponse(response: GetUserSettingsForStartupResponse) {
-    console.log("userId: " + response.userId);
-    this.router.navigate(['/home']);
+  private processResponse(response: any) {
+    if (response != null) {
+      if (response.error != null) {
+        this.errorService.addError(response.error as ErrorResponse);
+        this.errors = this.errorService.getErrors();
+      } else if (response.getUserSettingsForStartupResponse != null) {
+        this.userService.getCurrentUser().setLoggedIn(true);
+        console.log("userId: " + response.userId);
+        this.router.navigate(['/home']);
+      }
+    }
   }
 
   ngOnInit() {
