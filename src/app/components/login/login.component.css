@@ -1,0 +1,9 @@
+.app-content {
+  padding: 20px;
+}
+
+.app-content md-card {
+  margin: auto;
+  width: 30%;
+  height: 30%;
+}

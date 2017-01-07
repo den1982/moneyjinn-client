@@ -18,9 +18,14 @@ export class RESTUserService extends RESTService {
   }
 
   getUserSettingsForStartup(username: string): Observable<GetUserSettingsForStartupResponse> {
-    return super.get('getUserSettingsForStartup/' + username)
+    let response = super.get('getUserSettingsForStartup/' + username)
       .map(response => response.json().getUserSettingsForStartupResponse as GetUserSettingsForStartupResponse);
 
+    if (response != null) {
+      this.userService.getCurrentUser().setLoggedIn(true);
+    }
+
+    return response;
   }
 
 }

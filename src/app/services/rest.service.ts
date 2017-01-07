@@ -15,7 +15,7 @@ export abstract class RESTService {
   private static AUTH_HEADER_PREFIX = "MNF";
   private static AUTH_HEADER_SEPERATOR = ":";
 
-  constructor(private http: Http, private userService: UserService) {
+  constructor(private http: Http, protected userService: UserService) {
   }
 
   getBaseUrl(): string {
@@ -28,8 +28,8 @@ export abstract class RESTService {
 
     if (user) {
       let date = new Date().toUTCString();
-      let username = user.username;
-      let secret = user.password;
+      let username = user.getUsername();
+      let secret = user.getPassword();
       let urlWithoutDomain = completeUrl.replace(/^.*\/\/[^\/]+/, '');
 
       let authCode = this.getRESTAuthorization(secret, method, this.contentType, urlWithoutDomain, date, body, username);

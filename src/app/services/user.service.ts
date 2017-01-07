@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
 import {User} from "../model/user";
+import {CanActivate} from "@angular/router";
 
 @Injectable()
-export class UserService {
+export class UserService implements CanActivate {
   currentUser: User;
 
   constructor() {
@@ -16,4 +17,13 @@ export class UserService {
     return this.currentUser;
   }
 
+  canActivate() {
+    if (this.currentUser == null) {
+      console.log('false1');
+      return false;
+    } else {
+      console.log(this.currentUser.isLoggedIn() + "2");
+      return this.currentUser.isLoggedIn();
+    }
+  }
 }
