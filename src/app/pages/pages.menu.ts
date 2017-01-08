@@ -15,26 +15,16 @@ export const PAGES_MENU = [
         }
       },
       {
-        path: '',
+        path: 'addMoneyflow',
         data: {
           menu: {
-            title: 'Pages',
-            icon: 'ion-document',
+            title: 'Geldbewegung hinzufügen',
+            icon: 'ion-android-home',
             selected: false,
             expanded: false,
-            order: 650,
+            order: 0
           }
-        },
-        children: [
-          {
-            path: ['/login'],
-            data: {
-              menu: {
-                title: 'Login'
-              }
-            }
-          }
-        ]
+        }
       }
     ]
   }
