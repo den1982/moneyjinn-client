@@ -1,8 +1,9 @@
 <div class="auth-main">
   <div class="auth-block">
-    <h1>Sign in to ng2-admin</h1>
+    <h1>Willkommen! Geben Sie Ihre Nutzerdaten ein und klicken Sie auf „Anmelden“.</h1>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form-horizontal">
+
       <div class="form-group row" [ngClass]="{'has-error': (!username.valid && username.touched), 'has-success': (username.valid && username.touched)}">
         <label for="inputEmail3" class="col-sm-2 control-label">Benutzer</label>
 
@@ -18,8 +19,13 @@
         </div>
       </div>
       <div class="form-group row">
+        <div class="col-sm-10">
+          <app-error></app-error>
+        </div>
+      </div>
+      <div class="form-group row">
         <div class="offset-sm-2 col-sm-10">
-          <button [disabled]="!form.valid" type="submit" class="btn btn-default btn-auth">Login</button>
+          <button [disabled]="!form.valid" type="submit" class="btn btn-default btn-auth">Anmelden</button>
         </div>
       </div>
     </form>
