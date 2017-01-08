@@ -1,7 +1,7 @@
 export class User {
   private username: string;
   private password: string;
-  private loggedIn: boolean;
+  private loggedIn: boolean;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   constructor(username: string, password: string) {
     this.username = username;
