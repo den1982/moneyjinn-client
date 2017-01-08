@@ -19,7 +19,7 @@ export const PAGES_MENU = [
         data: {
           menu: {
             title: 'Geldbewegung hinzufügen',
-            icon: 'ion-android-home',
+            icon: 'ion-cash',
             selected: false,
             expanded: false,
             order: 0

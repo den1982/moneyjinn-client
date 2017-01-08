@@ -1,10 +1,10 @@
 {
-  "name": "ng2-admin",
-  "version": "0.8.0",
-  "description": "Angular 2 and Bootstrap 4 Admin Template.",
-  "author": "akveo",
-  "homepage": "http://akveo.github.io/ng2-admin/",
-  "license": "MIT",
+  "name": "moneyJinn",
+  "version": "0.0.1",
+  "description": "MoneyJinn...",
+  "author": "Dennis Garske & Oliver Lehmann",
+  "homepage": "",
+  "license": "",
   "dependencies": {
 
     "@angular/common": "2.2.3",
@@ -164,10 +164,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/akveo/ng2-admin.git"
-  },
-  "bugs": {
-    "url": "https://github.com/akveo/ng2-admin/issues"
+    "url": "https://github.com/den1982/moneyjinn-client.git"
   },
   "engines": {
     "node": ">= 4.2.1",
