@@ -4,7 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
-
+import {CheckLoginService} from "./services/check-login.service";
+import {UserService} from "./services/user.service";
+import {RESTUserService} from "./services/rest/restuser.service";
+import {ErrorService} from "./services/error.service";
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -50,7 +53,8 @@ type StoreType = {
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
-    APP_PROVIDERS
+    APP_PROVIDERS,
+    RESTUserService, UserService, ErrorService, CheckLoginService
   ]
 })
 
