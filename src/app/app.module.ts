@@ -12,11 +12,34 @@ import {UserService} from "./services/user.service";
 import {RESTUserService} from "./services/rest/restuser.service";
 import {ErrorService} from "./services/error.service";
 import {ErrorComponent} from "./components/error/error.component";
+import {AlertModule} from "ng2-bootstrap";
+import {SideNavComponent} from "./components/side-nav/side-nav.component";
+import {AddMoneyflowComponent} from "./components/moneyflow/add-moneyflow/add-moneyflow.component";
 
-const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent, canActivate: [CheckLoginService]},
-  {path: 'login', component: LoginComponent}
+export const routes: Routes = [
+  {
+    path: '',
+    data: ['Home', false],
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    data: ['Home', false],
+    component: HomeComponent,
+    canActivate: [CheckLoginService]
+  },
+  {
+    path: 'login',
+    data: ['login', false],
+    component: LoginComponent
+  }
+  ,
+  {
+    path: 'addMoneyflow',
+    data: ['Add Moneyflow', true],
+    component: AddMoneyflowComponent
+  }
 ];
 
 
@@ -25,14 +48,17 @@ const routes: Routes = [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    ErrorComponent
+    ErrorComponent,
+    SideNavComponent,
+    AddMoneyflowComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     MaterialModule.forRoot(),
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    AlertModule.forRoot(),
   ],
   providers: [RESTUserService, UserService, ErrorService, CheckLoginService],
   bootstrap: [AppComponent]

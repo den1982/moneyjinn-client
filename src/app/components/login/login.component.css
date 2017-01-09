@@ -1,9 +1,9 @@
-.app-content {
-  padding: 20px;
+.mj-parent {
+  display: table;
+  table-layout: fixed;
 }
 
-.app-content md-card {
-  margin: auto;
-  width: 30%;
-  height: 30%;
+.mj-child {
+  position: absolute;
+  top: 30%;
 }
