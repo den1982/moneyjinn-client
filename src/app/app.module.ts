@@ -12,7 +12,7 @@ import {UserService} from "./services/user.service";
 import {RESTUserService} from "./services/rest/restuser.service";
 import {ErrorService} from "./services/error.service";
 import {ErrorComponent} from "./components/error/error.component";
-import {AlertModule} from "ng2-bootstrap";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {SideNavComponent} from "./components/side-nav/side-nav.component";
 import {AddMoneyflowComponent} from "./components/moneyflow/add-moneyflow/add-moneyflow.component";
 
@@ -58,7 +58,7 @@ export const routes: Routes = [
     HttpModule,
     MaterialModule.forRoot(),
     RouterModule.forRoot(routes),
-    AlertModule.forRoot(),
+    NgbModule.forRoot(),
   ],
   providers: [RESTUserService, UserService, ErrorService, CheckLoginService],
   bootstrap: [AppComponent]

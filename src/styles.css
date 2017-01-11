@@ -1,2 +1,55 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+
+/************* START MAIN **************/
+#main {
+  width: calc(100% - 270px);
+  height: 100%;
+  float: right;
+  margin-top: 80px;
+  /*padding: 15px;*/
+  box-sizing: border-box;
+}
+
+#main .content-header {
+  /*border-left: 3px solid #babfc4;*/
+  /*padding-left: 15px;*/
+}
+
+#main .content-header h1 {
+  /*font-size: 48px;*/
+  /*font-weight: 500;*/
+  color: #1d1d2b;
+  /*text-transform: uppercase;*/
+  margin-top: 35px;
+  margin-bottom: 20px;
+  /*line-height: 23px;*/
+}
+
+#main .content-header h1 a {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 4px;
+  line-height: 0;
+}
+
+#main .content-header h1 img {
+  width: 15px;
+  vertical-align: top;
+}
+
+#main .content-header p {
+  /*font-size: 18px;*/
+  color: #1d1d2b;
+  font-weight: 300;
+  /*line-height: 30px;*/
+}
+
+#main .content-box {
+  margin-top: 20px;
+  /*padding: 15px;*/
+  box-sizing: border-box;
+  background-color: #fff;
+  margin-bottom: 30px;
+}
+
+/************* END MAIN **************/
