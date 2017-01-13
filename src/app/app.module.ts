@@ -12,8 +12,10 @@ import {UserService} from "./services/user.service";
 import {RESTUserService} from "./services/rest/restuser.service";
 import {ErrorService} from "./services/error.service";
 import {ErrorComponent} from "./components/error/error.component";
+import { NavbarComponent } from './components/navbar/navbar.component';
 
-const routes: Routes = [
+
+export const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent, canActivate: [CheckLoginService]},
   {path: 'login', component: LoginComponent}
@@ -25,7 +27,8 @@ const routes: Routes = [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    ErrorComponent
+    ErrorComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
