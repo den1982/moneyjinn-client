@@ -1,6 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
-
 @import url('//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css');
 
 body {
@@ -46,6 +44,11 @@ body {
   #wrapper #sidebar-wrapper {
     width: 225px;
   }
+
+  div.page-content {
+    margin-left: 225px;
+  }
+
 }
 
 #sidebar-wrapper {
@@ -88,7 +91,7 @@ body {
   color: #00555f;
 }
 
-.sidebar-nav li:first-child a {
+.sidebar-nav li.active a {
   background: #00555f !important;
   color: #fff !important;
 }
@@ -142,10 +145,16 @@ body {
     width: 200px;
     height: 0;
   }
+
+  div.page-content {
+    margin-left: 45px;
+  }
+
 }
 
-.sidebar-nav li:first-child a {
+.sidebar-nav li.active a {
   background: #00555f !important;
   color: #fff !important;
 }
+
 

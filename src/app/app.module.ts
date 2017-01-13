@@ -12,13 +12,32 @@ import {UserService} from "./services/user.service";
 import {RESTUserService} from "./services/rest/restuser.service";
 import {ErrorService} from "./services/error.service";
 import {ErrorComponent} from "./components/error/error.component";
-import { NavbarComponent } from './components/navbar/navbar.component';
-
+import {NavbarComponent} from "./components/navbar/navbar.component";
+import {AddMoneyflowsComponent} from "./components/moneyflows/add-moneyflows/add-moneyflows.component";
 
 export const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent, canActivate: [CheckLoginService]},
-  {path: 'login', component: LoginComponent}
+  {
+    path: '',
+    data: ['Home', false],
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    data: ['Home', true],
+    component: HomeComponent,
+    canActivate: [CheckLoginService]
+  },
+  {
+    path: 'login',
+    data: ['login', false],
+    component: LoginComponent
+  },
+  {
+    path: 'addMoneyflows',
+    data: ['Add Moneyflows', true],
+    component: AddMoneyflowsComponent
+  }
 ];
 
 
@@ -28,7 +47,8 @@ export const routes: Routes = [
     HomeComponent,
     LoginComponent,
     ErrorComponent,
-    NavbarComponent
+    NavbarComponent,
+    AddMoneyflowsComponent
   ],
   imports: [
     BrowserModule,
