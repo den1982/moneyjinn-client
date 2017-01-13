@@ -12,15 +12,11 @@ export class SideNavComponent implements AfterViewInit {
   public routes: any = routes;
   public hash: string = '';
   public isShown: boolean = false;
-
-  private renderer: Renderer;
-  private document: any;
+  
   private router: Router;
 
-  public constructor(renderer: Renderer, @Inject(DOCUMENT) document: any, router: Router) {
+  public constructor(router: Router) {
     this.router = router;
-    this.renderer = renderer;
-    this.document = document;
     this.routes = this.routes.filter((v: any) => v.data[1]);
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
@@ -37,18 +33,11 @@ export class SideNavComponent implements AfterViewInit {
       let _cur = getUrl(this.router);
       if (event instanceof NavigationEnd && _cur !== _prev) {
         _prev = _cur;
-        this.toggle(false);
       }
     });
   }
 
-  public toggle(isShown?: boolean): void {
-    this.isShown = typeof isShown === 'undefined' ? !this.isShown : isShown;
-    if (this.document && this.document.body) {
-      this.renderer.setElementClass(this.document.body, 'isOpenMenu', this.isShown);
-      if (this.isShown === false) {
-        this.renderer.setElementProperty(this.document.body, 'scrollTop', 0);
-      }
-    }
+  public toggle(): void {
+    this.isShown = !this.isShown;
   }
 }

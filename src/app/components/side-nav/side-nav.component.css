@@ -325,17 +325,24 @@
     height: calc(100% - 69px);
   }
 
-  .isOpenMenu #main-menu {
-    left: 0;
-  }
 
   #main {
     width: 100%;
     float: none;
   }
+
+  .isOpenMenu {
+    left: 0 !important;
+  }
+
 }
 
 @media (max-width: 600px) {
+
+  .isOpenMenu {
+    left: 0 !important;
+  }
+
   #top-menu .title h2 {
     padding: 15px;
   }
