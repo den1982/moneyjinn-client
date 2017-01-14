@@ -18,24 +18,24 @@ import {AddMoneyflowsComponent} from "./components/moneyflows/add-moneyflows/add
 export const routes: Routes = [
   {
     path: '',
-    data: ['Home', false],
+    data: ['Sample components', false, 'fa fa-home'],
     redirectTo: 'home',
     pathMatch: 'full'
   },
   {
     path: 'home',
-    data: ['Home', true],
+    data: ['Sample components', true, 'fa fa-home'],
     component: HomeComponent,
     canActivate: [CheckLoginService]
   },
   {
     path: 'login',
-    data: ['login', false],
+    data: ['login', false, ''],
     component: LoginComponent
   },
   {
     path: 'addMoneyflows',
-    data: ['Add Moneyflows', true],
+    data: ['Add Moneyflows', true, 'fa fa-plus'],
     component: AddMoneyflowsComponent
   }
 ];
