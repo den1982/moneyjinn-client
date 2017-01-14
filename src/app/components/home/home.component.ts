@@ -11,5 +11,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
   }
 }
