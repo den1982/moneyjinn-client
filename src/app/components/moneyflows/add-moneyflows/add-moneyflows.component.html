@@ -1,9 +1,59 @@
 <app-navbar></app-navbar>
 <div class="page-content">
-  <p>
-    add moneyflows 1
-    add moneyflows 2
-    add moneyflows 3
-    add moneyflows 4
-  </p>
+  <form>
+    <div class="form-group row">
+      <label for="add" class="col-sm-1 col-form-label" style="width: inherit !important; ">+</label>
+      <label for="privat" class="col-sm-1 col-form-label" style="width: inherit !important; ">pr</label>
+      <label for="bookingdate" class="col-sm-1 col-form-label">Buchungsdatum</label>
+      <label for="invoicdate" class="col-sm-1 col-form-label">Rechnungsdatum</label>
+      <label for="amount" class="col-sm-1 col-form-label">Betrag</label>
+      <label for="contractpartner" class="col-sm-2 col-form-label">Vertragspartner</label>
+      <label for="comment" class="col-sm-2 col-form-label">Kommentar</label>
+      <label for="postingaccount" class="col-sm-2 col-form-label">Buchungskonto</label>
+      <label for="capitalsource" class="col-sm-2 col-form-label">Kapitalquelle</label>
+      <label for="lastused" class="col-sm-2 col-form-label">verwendet am</label>
+    </div>
+
+    <div class="form-group row" *ngFor="let mf of model| async ; let in = index">
+      <div class="col-lg-1" style="width: inherit !important; ">
+        <input type="checkbox" id="add" name="add">
+      </div>
+      <div class="col-sm-1" style="width: inherit !important; ">
+        <input type="checkbox" id="privat" name="privat">
+      </div>
+      <div class="col-sm-1">
+        <input id="bookingdate" type="text" class="form-control" name="bookingdate" [(ngModel)]="mf._bookingdate">
+      </div>
+      <div class="col-sm-1">
+        <input id="invoicdate" type="text" class="form-control" name="invoicdate">
+      </div>
+      <div class="col-sm-1">
+        <input id="amount" type="text" class="form-control" name="amount" [(ngModel)]="mf._amount">
+      </div>
+      <div class="col-sm-2">
+        <select class="form-control" id="contractpartner">
+          <option *ngFor="let cp of contractpartnerTransports | async" value="{{cp.id}}">{{cp.name}}</option>
+        </select>
+
+      </div>
+      <div class="col-sm-2">
+        <input id="comment" type="text" class="form-control" name="comment" [(ngModel)]="mf._comment">
+      </div>
+      <div class="col-sm-2">
+        <select class="form-control" id="postingaccount">
+          <option *ngFor="let pa of postingAccountTransports | async" value="{{pa.id}}">{{pa.name}}</option>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <select class="form-control" id="capitalsource">
+          <option *ngFor="let cs of capitalsourceTransports | async" value="{{cs.id}}">{{cs.comment}}</option>
+        </select>
+      </div>
+      <div class="col-sm-1">
+        <span id="lastused">{{mf._lastUsed}}</span>
+      </div>
+    </div>
+
+
+  </form>
 </div>
