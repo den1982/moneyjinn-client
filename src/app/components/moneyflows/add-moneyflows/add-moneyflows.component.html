@@ -1,6 +1,5 @@
 <app-navbar></app-navbar>
 <div class="page-content">
-  <form>
     <div class="form-group row">
       <label for="add" class="col-sm-1 col-form-label" style="width: inherit !important; ">+</label>
       <label for="privat" class="col-sm-1 col-form-label" style="width: inherit !important; ">pr</label>
@@ -14,7 +13,7 @@
       <label for="lastused" class="col-sm-2 col-form-label">verwendet am</label>
     </div>
 
-    <div class="form-group row" *ngFor="let mf of model| async ; let in = index">
+  <div class="form-group row" *ngFor="let mf of model| async ">
       <div class="col-lg-1" style="width: inherit !important; ">
         <input type="checkbox" id="add" name="add">
       </div>
@@ -31,8 +30,10 @@
         <input id="amount" type="text" class="form-control" name="amount" [(ngModel)]="mf._amount">
       </div>
       <div class="col-sm-2">
-        <select class="form-control" id="contractpartner">
-          <option *ngFor="let cp of contractpartnerTransports | async" value="{{cp.id}}">{{cp.name}}</option>
+        <select class="form-control" id="contractpartner" [(ngModel)]="mf._contractpartnerId">
+          <option *ngFor="let cp of contractpartnerTransports | async" value="{{cp.id}}"
+                  [selected]="cp.id == mf._contractpartnerId">{{cp.name}}
+          </option>
         </select>
 
       </div>
@@ -40,13 +41,17 @@
         <input id="comment" type="text" class="form-control" name="comment" [(ngModel)]="mf._comment">
       </div>
       <div class="col-sm-2">
-        <select class="form-control" id="postingaccount">
-          <option *ngFor="let pa of postingAccountTransports | async" value="{{pa.id}}">{{pa.name}}</option>
+        <select class="form-control" id="postingaccount" [(ngModel)]="mf._postingAccountId">
+          <option *ngFor="let pa of postingAccountTransports | async" value="{{pa.id}}"
+                  [selected]="pa.id == mf._postingAccountId">{{pa.name}}
+          </option>
         </select>
       </div>
       <div class="col-sm-2">
-        <select class="form-control" id="capitalsource">
-          <option *ngFor="let cs of capitalsourceTransports | async" value="{{cs.id}}">{{cs.comment}}</option>
+        <select class="form-control" id="capitalsource" [(ngModel)]="mf._capitalsourceId">
+          <option *ngFor="let cs of capitalsourceTransports | async" value="{{cs.id}}"
+                  [selected]="cs.id == mf._capitalsourceId">{{cs.comment}}
+          </option>
         </select>
       </div>
       <div class="col-sm-1">
@@ -55,5 +60,4 @@
     </div>
 
 
-  </form>
 </div>
