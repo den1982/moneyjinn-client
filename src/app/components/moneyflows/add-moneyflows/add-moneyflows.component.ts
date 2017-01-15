@@ -27,6 +27,10 @@ export class AddMoneyflowsComponent implements OnInit {
     this.restMoneyflowService.showAddMoneyflows(response => this.processResponseCallback(response));
   }
 
+  processRequest() {
+    console.log(this.model);
+  }
+
   private processResponseCallback(response: ShowAddMoneyflowsResponse) {
 
     if (response != null) {
@@ -61,7 +65,6 @@ export class AddMoneyflowsComponent implements OnInit {
     }
 
     return models;
-
   }
 
   private generateAddMoneyflowsModelForPreDefMoneyflows(preDefMoneyflows: PreDefMoneyflowTransport[]): AddMoneyflowsModel[] {
@@ -87,6 +90,5 @@ export class AddMoneyflowsComponent implements OnInit {
     }
 
     return models;
-
   }
 }
