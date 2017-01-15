@@ -8,6 +8,9 @@ import {ContractpartnerTransport} from "../../../model/rest/transport/contractpa
 import {PreDefMoneyflowTransport} from "../../../model/rest/transport/pre-def-moneyflow-transport";
 import {AddMoneyflowsModel} from "./add-moneyflows-model";
 import {DateUtil} from "../../../util/date-util";
+import {MoneyflowTransport} from "../../../model/rest/transport/moneyflow-transport";
+import {CreateMoneyflowsRequest} from "../../../model/rest/moneyflow/create-moneyflows-request";
+import {CreateMoneyflowsResponse} from "../../../model/rest/moneyflow/create-moneyflows-response";
 
 @Component({
   selector: 'app-add-moneyflows',
@@ -25,20 +28,45 @@ export class AddMoneyflowsComponent implements OnInit {
               private dateUtil: DateUtil) {
   }
 
-  ngOnInit() {
-    this.restMoneyflowService.showAddMoneyflows(response => this.processResponseCallback(response));
-  }
-
-  processRequest() {
+  private processRequest() {
     this.model.subscribe(m => this.addMoneyflows(m));
   }
 
   private addMoneyflows(moneyflows: AddMoneyflowsModel[]) {
+    let transports: MoneyflowTransport[] = [];
+    let usedPreDefMoneyflowIds: number[] = [];
+
     for (let m of moneyflows) {
-      console.log(m);
+      if (m.isAdd()) {
+        transports.push(this.generateMoneyflowTransport(m));
+        if (m.isPreDefMoneyflow()) {
+          usedPreDefMoneyflowIds.push(m.getId());
+        }
+      }
+    }
+
+    let createMoneyflowsRequest: CreateMoneyflowsRequest = new CreateMoneyflowsRequest();
+    createMoneyflowsRequest.setMoneyflowTransports(transports);
+    createMoneyflowsRequest.setUsedPreDefMoneyflowIds(usedPreDefMoneyflowIds);
+
+    this.restMoneyflowService.createMoneyflows(createMoneyflowsRequest, response => this.processCreateResponseCallback((response)));
+  }
+
+  private processCreateResponseCallback(response: CreateMoneyflowsResponse) {
+    console.log(response);
+    if (!response.result) {
+      for (let validationItem of response.validationItemTransport) {
+        // TODO: Process Validation Results
+        console.log(validationItem);
+      }
     }
   }
-  private processResponseCallback(response: ShowAddMoneyflowsResponse) {
+
+  ngOnInit() {
+    this.restMoneyflowService.showAddMoneyflows(response => this.processShowResponseCallback(response));
+  }
+
+  private processShowResponseCallback(response: ShowAddMoneyflowsResponse) {
 
     if (response != null) {
       this.postingAccountTransports = Observable.of<PostingAccountTransport[]>(response.postingAccountTransport);
@@ -56,6 +84,24 @@ export class AddMoneyflowsComponent implements OnInit {
     }
   }
 
+  private generateMoneyflowTransport(model: AddMoneyflowsModel): MoneyflowTransport {
+    let transport: MoneyflowTransport = new MoneyflowTransport;
+
+    transport.setId(model.getId());
+    transport.setBookingdate(new Date(model.getBookingdate()));
+    if (model.getInvoicedate() != null) {
+      transport.setInvoicedate(new Date(model.getInvoicedate()));
+    }
+    transport.setAmount(model.getAmount());
+    transport.setComment(model.getComment());
+    transport.setCapitalsourceid(model.getCapitalsourceId());
+    transport.setContractpartnerid(model.getContractpartnerId());
+    transport.setPostingaccountid(model.getPostingAccountId());
+
+    console.log(transport);
+    return transport;
+  }
+
   private generateEmptyAddMoneyflowsModel(rows: number): AddMoneyflowsModel[] {
     let models: AddMoneyflowsModel[] = [];
 
@@ -64,7 +110,7 @@ export class AddMoneyflowsComponent implements OnInit {
 
       model.setId(rows * -1);
       model.setAdd(false);
-      model.setBookingdate(new Date());
+      model.setBookingdate(this.dateUtil.formatDate(new Date()));
       model.setIsPreDefMoneyflow(false);
 
       models.push(model);
@@ -82,7 +128,7 @@ export class AddMoneyflowsComponent implements OnInit {
 
       model.setId(preDefMoneyflow.id);
       model.setAdd(false);
-      model.setBookingdate(new Date());
+      model.setBookingdate(this.dateUtil.formatDate(new Date()));
       model.setAmount(preDefMoneyflow.amount);
       model.setContractpartnerId(preDefMoneyflow.contractpartnerid);
       model.setContractpartnerName(preDefMoneyflow.contractpartnername);
@@ -90,7 +136,7 @@ export class AddMoneyflowsComponent implements OnInit {
       model.setPostingAccountId(preDefMoneyflow.postingaccountid);
       model.setCapitalsourceId(preDefMoneyflow.capitalsourceid);
       model.setCapitalsourceComment(preDefMoneyflow.capitalsourcecomment);
-      model.setLastUsed(new Date(preDefMoneyflow.lastUsed));
+      model.setLastUsed(this.dateUtil.formatDate(new Date(preDefMoneyflow.lastUsed)));
       model.setIsPreDefMoneyflow(true);
 
       models.push(model);
@@ -99,16 +145,4 @@ export class AddMoneyflowsComponent implements OnInit {
     return models;
   }
 
-  parseDate(oldDate: Date, dateString: string): Date {
-    console.log(oldDate + ' -> ' + dateString);
-    if (dateString) {
-      let newDate: Date = new Date(dateString);
-      let newDateString: string = this.dateUtil.formatDate(newDate);
-      console.log(newDateString + "----" + dateString);
-      if (newDateString == dateString) {
-        return newDate;
-      }
-    }
-    return oldDate;
-  }
 }

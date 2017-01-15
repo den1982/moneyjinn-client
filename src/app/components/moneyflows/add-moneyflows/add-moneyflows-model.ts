@@ -2,8 +2,8 @@ export class AddMoneyflowsModel {
   private _id: number;
   private _add: boolean;
   private _privat: boolean;
-  private _bookingdate: Date;
-  private _invoicedate: Date;
+  private _bookingdate: string;
+  private _invoicedate: string;
   private _amount: number;
   private _contractpartnerId: number;
   private _contractpartnerName: string;
@@ -11,119 +11,119 @@ export class AddMoneyflowsModel {
   private _postingAccountId: number;
   private _capitalsourceId: number;
   private _capitalsourceComment: string;
-  private _lastUsed: Date;
+  private _lastUsed: string;
   private _isPreDefMoneyflow: boolean;
 
 
-  getId(): number {
+  public getId(): number {
     return this._id;
   }
 
-  setId(value: number) {
+  public setId(value: number) {
     this._id = value;
   }
 
-  getAdd(): boolean {
+  public isAdd(): boolean {
     return this._add;
   }
 
-  setAdd(value: boolean) {
+  public setAdd(value: boolean) {
     this._add = value;
   }
 
-  getPrivat(): boolean {
+  public isPrivat(): boolean {
     return this._privat;
   }
 
-  setPrivat(value: boolean) {
+  public setPrivat(value: boolean) {
     this._privat = value;
   }
 
-  getBookingdate(): Date {
+  public getBookingdate(): string {
     return this._bookingdate;
   }
 
-  setBookingdate(value: Date) {
+  public setBookingdate(value: string) {
     this._bookingdate = value;
   }
 
-  getInvoicedate(): Date {
+  public getInvoicedate(): string {
     return this._invoicedate;
   }
 
-  setInvoicedate(value: Date) {
+  public setInvoicedate(value: string) {
     this._invoicedate = value;
   }
 
-  getAmount(): number {
+  public getAmount(): number {
     return this._amount;
   }
 
-  setAmount(value: number) {
+  public setAmount(value: number) {
     this._amount = value;
   }
 
-  getContractpartnerId(): number {
+  public getContractpartnerId(): number {
     return this._contractpartnerId;
   }
 
-  setContractpartnerId(value: number) {
+  public setContractpartnerId(value: number) {
     this._contractpartnerId = value;
   }
 
-  getContractpartnerName(): string {
+  public getContractpartnerName(): string {
     return this._contractpartnerName;
   }
 
-  setContractpartnerName(value: string) {
+  public setContractpartnerName(value: string) {
     this._contractpartnerName = value;
   }
 
-  getComment(): string {
+  public getComment(): string {
     return this._comment;
   }
 
-  setComment(value: string) {
+  public setComment(value: string) {
     this._comment = value;
   }
 
-  getPostingAccountId(): number {
+  public getPostingAccountId(): number {
     return this._postingAccountId;
   }
 
-  setPostingAccountId(value: number) {
+  public setPostingAccountId(value: number) {
     this._postingAccountId = value;
   }
 
-  getCapitalsourceId(): number {
+  public getCapitalsourceId(): number {
     return this._capitalsourceId;
   }
 
-  setCapitalsourceId(value: number) {
+  public setCapitalsourceId(value: number) {
     this._capitalsourceId = value;
   }
 
-  getCapitalsourceComment(): string {
+  public getCapitalsourceComment(): string {
     return this._capitalsourceComment;
   }
 
-  setCapitalsourceComment(value: string) {
+  public setCapitalsourceComment(value: string) {
     this._capitalsourceComment = value;
   }
 
-  getLastUsed(): Date {
+  public getLastUsed(): string {
     return this._lastUsed;
   }
 
-  setLastUsed(value: Date) {
+  public setLastUsed(value: string) {
     this._lastUsed = value;
   }
 
-  getIsPreDefMoneyflow(): boolean {
+  public isPreDefMoneyflow(): boolean {
     return this._isPreDefMoneyflow;
   }
 
-  setIsPreDefMoneyflow(value: boolean) {
+  public setIsPreDefMoneyflow(value: boolean) {
     this._isPreDefMoneyflow = value;
   }
 }

@@ -21,12 +21,10 @@
       <input type="checkbox" id="privat" name="privat" [(ngModel)]="mf._privat">
     </div>
     <div class="col-sm-1">
-      <input id="bookingdate" type="text" class="form-control" name="bookingdate" [ngModel]="mf._bookingdate"
-             (ngModelChange)="mf._bookingdate=parseDate(mf._bookingdate,$event)">
+      <input id="bookingdate" type="text" class="form-control" name="bookingdate" [(ngModel)]="mf._bookingdate">
     </div>
     <div class="col-sm-1">
-      <input id="invoicdate" type="text" class="form-control" name="invoicdate" [ngModel]="mf._invoicdate | mjDate"
-             (ngModelChange)="mf._invoicdate=parseDate(mf._bookingdate,$event)">
+      <input id="invoicdate" type="text" class="form-control" name="invoicdate" [(ngModel)]="mf._invoicdate">
     </div>
     <div class="col-sm-1">
       <div class="input-group">

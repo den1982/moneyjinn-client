@@ -32,7 +32,7 @@ export abstract class RESTService {
    * @param url
    * The usecase specific part of the URL.
    * @param jsonRootValue
-   * The name of the root value in the JSON which contains the payload (see: <b>WRAP_ROOT_VALUE</b> on <a href="https://github.com/FasterXML/jackson-databind/wiki/Serialization-features">Serialization features</a>)
+   * The name of the root value in the JSON which contains the payload (see: <b>UNWRAP_ROOT_VALUE</b> on <a href="https://github.com/FasterXML/jackson-databind/wiki/Serialization-features">Serialization features</a>)
    * @param callback
    * The callback method which will be executed when the server did respond and the response was not an {@link ErrorResponse}
    */
@@ -43,6 +43,74 @@ export abstract class RESTService {
       .get(completeUrl, {headers: this.getHeaders(completeUrl, 'GET', null)})
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
       .subscribe(response => this.handleResponse<T>(response.json(), jsonRootValue, callback));
+  }
+
+  /**
+   * Issues a HTTP PUT Call with the given parameters
+   * @param url
+   * The usecase specific part of the URL.
+   * @param jsonRootValueResponse
+   * The name of the root value in the JSON which contains the response payload (see: <b>UNWRAP_ROOT_VALUE</b> on <a href="https://github.com/FasterXML/jackson-databind/wiki/Serialization-features">Serialization features</a>)
+   * @param jsonRootValueRequest
+   * The name of the root value in the JSON which contains the request payload (see: <b>WRAP_ROOT_VALUE</b> on <a href="https://github.com/FasterXML/jackson-databind/wiki/Serialization-features">Serialization features</a>)
+   * @param payload
+   * The payload to PUT to the server
+   * @param callback
+   * The callback method which will be executed when the server did respond and the response was not an {@link ErrorResponse}
+   */
+  public put<T>(url, jsonRootValueResponse, jsonRootValueRequest, payload: any, callback: Function) {
+    let completeUrl = this.baseUrl + this.getUsecaseUrl() + url;
+
+    let body: string = this.generateJson(jsonRootValueRequest, payload);
+
+    this.http
+      .put(completeUrl, body, {headers: this.getHeaders(completeUrl, 'PUT', body)})
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .subscribe(response => this.handleResponse<T>(response.json(), jsonRootValueResponse, callback));
+  }
+
+  /**
+   * Issues a HTTP POST Call with the given parameters
+   * @param url
+   * The usecase specific part of the URL.
+   * @param jsonRootValueResponse
+   * The name of the root value in the JSON which contains the response payload (see: <b>UNWRAP_ROOT_VALUE</b> on <a href="https://github.com/FasterXML/jackson-databind/wiki/Serialization-features">Serialization features</a>)
+   * @param jsonRootValueRequest
+   * The name of the root value in the JSON which contains the request payload (see: <b>WRAP_ROOT_VALUE</b> on <a href="https://github.com/FasterXML/jackson-databind/wiki/Serialization-features">Serialization features</a>)
+   * @param payload
+   * The payload to POST to the server
+   * @param callback
+   * The callback method which will be executed when the server did respond and the response was not an {@link ErrorResponse}
+   */
+  public post<T>(url, jsonRootValueResponse, jsonRootValueRequest, payload: any, callback: Function) {
+    let completeUrl = this.baseUrl + this.getUsecaseUrl() + url;
+
+    let body: string = this.generateJson(jsonRootValueRequest, payload);
+
+    this.http
+      .post(completeUrl, body, {headers: this.getHeaders(completeUrl, 'POST', body)})
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+      .subscribe(response => this.handleResponse<T>(response.json(), jsonRootValueResponse, callback));
+  }
+
+  /**
+   * This wraps the payload with the given rootName
+   *
+   * @param rootName
+   * @param payload
+   * @returns {string}
+   */
+  private generateJson(rootName: string, payload: any): string {
+    /*
+     let wrappedPayload: Map<string,any> = new Map();
+     wrappedPayload.set(rootName, payload)
+
+     let body: string = JSON.stringify(Array.from(wrappedPayload));
+     */
+
+    let body: string = '{"' + rootName + '":' + JSON.stringify(payload) + '}';
+    console.log('HTTP Body:' + body);
+    return body;
   }
 
   /**
