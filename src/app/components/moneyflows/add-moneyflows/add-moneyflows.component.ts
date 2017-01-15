@@ -7,6 +7,7 @@ import {CapitalsourceTransport} from "../../../model/rest/transport/capitalsourc
 import {ContractpartnerTransport} from "../../../model/rest/transport/contractpartner-transport";
 import {PreDefMoneyflowTransport} from "../../../model/rest/transport/pre-def-moneyflow-transport";
 import {AddMoneyflowsModel} from "./add-moneyflows-model";
+import {DateUtil} from "../../../util/date-util";
 
 @Component({
   selector: 'app-add-moneyflows',
@@ -20,7 +21,8 @@ export class AddMoneyflowsComponent implements OnInit {
 
   model: Observable<AddMoneyflowsModel[]>;
 
-  constructor(private restMoneyflowService: RESTMoneyflowService) {
+  constructor(private restMoneyflowService: RESTMoneyflowService,
+              private dateUtil: DateUtil) {
   }
 
   ngOnInit() {
@@ -28,9 +30,14 @@ export class AddMoneyflowsComponent implements OnInit {
   }
 
   processRequest() {
-    console.log(this.model);
+    this.model.subscribe(m => this.addMoneyflows(m));
   }
 
+  private addMoneyflows(moneyflows: AddMoneyflowsModel[]) {
+    for (let m of moneyflows) {
+      console.log(m);
+    }
+  }
   private processResponseCallback(response: ShowAddMoneyflowsResponse) {
 
     if (response != null) {
@@ -83,12 +90,25 @@ export class AddMoneyflowsComponent implements OnInit {
       model.setPostingAccountId(preDefMoneyflow.postingaccountid);
       model.setCapitalsourceId(preDefMoneyflow.capitalsourceid);
       model.setCapitalsourceComment(preDefMoneyflow.capitalsourcecomment);
-      model.setLastUsed(preDefMoneyflow.lastUsed);
+      model.setLastUsed(new Date(preDefMoneyflow.lastUsed));
       model.setIsPreDefMoneyflow(true);
 
       models.push(model);
     }
 
     return models;
+  }
+
+  parseDate(oldDate: Date, dateString: string): Date {
+    console.log(oldDate + ' -> ' + dateString);
+    if (dateString) {
+      let newDate: Date = new Date(dateString);
+      let newDateString: string = this.dateUtil.formatDate(newDate);
+      console.log(newDateString + "----" + dateString);
+      if (newDateString == dateString) {
+        return newDate;
+      }
+    }
+    return oldDate;
   }
 }

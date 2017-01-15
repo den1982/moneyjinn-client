@@ -4,6 +4,7 @@ import {User} from "../../model/user";
 import {UserService} from "../../services/user.service";
 import {RESTUserService} from "../../services/rest/restuser.service";
 import {GetUserSettingsForStartupResponse} from "../../model/rest/get-user-settings-for-startup-response";
+import {UserSettings} from "../../model/user-settings";
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,22 @@ export class LoginComponent implements OnInit {
 
   private processResponseCallback(response: GetUserSettingsForStartupResponse) {
     if (response != null) {
-      this.userService.getCurrentUser().setLoggedIn(true);
+      let user: User = this.userService.getCurrentUser();
+      user.setLoggedIn(true);
+      user.setIsAdmin(response.permissionAdmin);
+      user.setIsNew(response.attributeNew);
+
+      let userSettings: UserSettings = new UserSettings();
+      userSettings.setSettingDisplayedLanguage(response.settingDisplayedLanguage);
+
+      if (response.settingDateFormat != null) {
+        let clientDateFormat: string = response.settingDateFormat.replace('YYYY', 'yyyy');
+        clientDateFormat = clientDateFormat.replace('DD', 'dd');
+        userSettings.setSettingDateFormat(clientDateFormat);
+      }
+
+      this.userService.setCurrentUserSettings(userSettings);
+
       this.router.navigate(['/home']);
     }
   }

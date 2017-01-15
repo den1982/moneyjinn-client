@@ -1,7 +1,9 @@
 export class User {
   private username: string;
   private password: string;
-  private loggedIn: boolean;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  private loggedIn: boolean;
+  private _isAdmin: boolean;
+  private _isNew: boolean;
 
   constructor(username: string, password: string) {
     this.username = username;
@@ -22,5 +24,21 @@ export class User {
 
   isLoggedIn(): boolean {
     return this.loggedIn;
+  }
+
+  isAdmin(): boolean {
+    return this._isAdmin;
+  }
+
+  setIsAdmin(isAdmin: boolean) {
+    this._isAdmin = isAdmin;
+  }
+
+  isNew(): boolean {
+    return this._isNew;
+  }
+
+  setIsNew(isNew: boolean) {
+    this._isNew = isNew;
   }
 }

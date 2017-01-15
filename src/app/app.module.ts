@@ -14,6 +14,8 @@ import {ErrorComponent} from "./components/error/error.component";
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {AddMoneyflowsComponent} from "./components/moneyflows/add-moneyflows/add-moneyflows.component";
 import {RESTMoneyflowService} from "./services/rest/restmoneyflow.service";
+import {MoneyjinnDatePipe} from "./components/pipes/moneyjinn-date-pipe";
+import {DateUtil} from "./util/date-util";
 
 export const routes: Routes = [
   {
@@ -49,7 +51,8 @@ export const routes: Routes = [
     LoginComponent,
     ErrorComponent,
     NavbarComponent,
-    AddMoneyflowsComponent
+    AddMoneyflowsComponent,
+    MoneyjinnDatePipe
   ],
   imports: [
     BrowserModule,
@@ -57,7 +60,7 @@ export const routes: Routes = [
     HttpModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [RESTUserService, RESTMoneyflowService, UserService, ErrorService, CheckLoginService],
+  providers: [RESTUserService, RESTMoneyflowService, UserService, ErrorService, CheckLoginService, DateUtil],
   bootstrap: [AppComponent]
 })
 export class AppModule {

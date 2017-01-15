@@ -1,9 +1,11 @@
 import {Injectable} from "@angular/core";
 import {User} from "../model/user";
+import {UserSettings} from "../model/user-settings";
 
 @Injectable()
 export class UserService {
   currentUser: User;
+  currentUserSettings: UserSettings;
 
   constructor() {
   }
@@ -14,6 +16,14 @@ export class UserService {
 
   public getCurrentUser(): User {
     return this.currentUser;
+  }
+
+  public setCurrentUserSettings(userSettings: UserSettings) {
+    this.currentUserSettings = userSettings;
+  }
+
+  public getCurrentUserSettings(): UserSettings {
+    return this.currentUserSettings;
   }
 
   public isLoggedIn(): boolean {

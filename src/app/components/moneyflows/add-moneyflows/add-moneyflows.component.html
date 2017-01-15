@@ -15,21 +15,27 @@
 
   <div class="form-group row" *ngFor="let mf of model| async ">
     <div class="col-lg-1" style="width: inherit !important; ">
-      <input type="checkbox" id="add" name="add">
+      <input type="checkbox" id="add" name="add" [(ngModel)]="mf._add">
     </div>
     <div class="col-sm-1" style="width: inherit !important; ">
-      <input type="checkbox" id="privat" name="privat">
+      <input type="checkbox" id="privat" name="privat" [(ngModel)]="mf._privat">
     </div>
     <div class="col-sm-1">
-      <input id="bookingdate" type="text" class="form-control" name="bookingdate" [(ngModel)]="mf._bookingdate">
+      <input id="bookingdate" type="text" class="form-control" name="bookingdate" [ngModel]="mf._bookingdate"
+             (ngModelChange)="mf._bookingdate=parseDate(mf._bookingdate,$event)">
     </div>
     <div class="col-sm-1">
-      <input id="invoicdate" type="text" class="form-control" name="invoicdate">
+      <input id="invoicdate" type="text" class="form-control" name="invoicdate" [ngModel]="mf._invoicdate | mjDate"
+             (ngModelChange)="mf._invoicdate=parseDate(mf._bookingdate,$event)">
     </div>
     <div class="col-sm-1">
-      <input id="amount" type="text" class="form-control" name="amount" [(ngModel)]="mf._amount">
+      <div class="input-group">
+        <span class="input-group-addon">&euro;</span>
+        <input id="amount" type="text" class="form-control currency" name="amount" [(ngModel)]="mf._amount">
+      </div>
     </div>
     <div class="col-sm-2">
+
       <select class="form-control" id="contractpartner" [(ngModel)]="mf._contractpartnerId">
         <option *ngFor="let cp of contractpartnerTransports | async" value="{{cp.id}}"
                 [selected]="cp.id == mf._contractpartnerId">{{cp.name}}
