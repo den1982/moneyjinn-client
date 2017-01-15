@@ -4,7 +4,7 @@ import "rxjs/add/operator/toPromise";
 import {RESTService} from "./rest.service";
 import {UserService} from "../user.service";
 import {ErrorService} from "../error.service";
-import {GetUserSettingsForStartupResponse} from "../../model/rest/get-user-settings-for-startup-response";
+import {GetUserSettingsForStartupResponse} from "../../model/rest/user/get-user-settings-for-startup-response";
 
 @Injectable()
 export class RESTUserService extends RESTService {
