@@ -2,7 +2,6 @@ import {Component, OnInit} from "@angular/core";
 import {RESTMoneyflowService} from "../../../services/rest/restmoneyflow.service";
 import {ShowAddMoneyflowsResponse} from "../../../model/rest/moneyflow/show-add-moneyflows-response";
 import {PostingAccountTransport} from "../../../model/rest/transport/posting-account-transport";
-import {Observable} from "rxjs";
 import {CapitalsourceTransport} from "../../../model/rest/transport/capitalsource-transport";
 import {ContractpartnerTransport} from "../../../model/rest/transport/contractpartner-transport";
 import {PreDefMoneyflowTransport} from "../../../model/rest/transport/pre-def-moneyflow-transport";
@@ -18,18 +17,18 @@ import {CreateMoneyflowsResponse} from "../../../model/rest/moneyflow/create-mon
   styleUrls: ['./add-moneyflows.component.css']
 })
 export class AddMoneyflowsComponent implements OnInit {
-  postingAccountTransports: Observable<PostingAccountTransport[]>;
-  capitalsourceTransports: Observable<CapitalsourceTransport[]>;
-  contractpartnerTransports: Observable<ContractpartnerTransport[]>;
+  postingAccountTransports: PostingAccountTransport[];
+  capitalsourceTransports: CapitalsourceTransport[];
+  contractpartnerTransports: ContractpartnerTransport[];
 
-  model: Observable<AddMoneyflowsModel[]>;
+  model: AddMoneyflowsModel[];
 
   constructor(private restMoneyflowService: RESTMoneyflowService,
               private dateUtil: DateUtil) {
   }
 
   private processRequest() {
-    this.model.subscribe(m => this.addMoneyflows(m));
+    this.addMoneyflows(this.model);
   }
 
   private addMoneyflows(moneyflows: AddMoneyflowsModel[]) {
@@ -69,9 +68,9 @@ export class AddMoneyflowsComponent implements OnInit {
   private processShowResponseCallback(response: ShowAddMoneyflowsResponse) {
 
     if (response != null) {
-      this.postingAccountTransports = Observable.of<PostingAccountTransport[]>(response.postingAccountTransport);
-      this.capitalsourceTransports = Observable.of<CapitalsourceTransport[]>(response.capitalsourceTransport);
-      this.contractpartnerTransports = Observable.of<ContractpartnerTransport[]>(response.contractpartnerTransport);
+      this.postingAccountTransports = response.postingAccountTransport;
+      this.capitalsourceTransports = response.capitalsourceTransport;
+      this.contractpartnerTransports = response.contractpartnerTransport;
 
       let tempModel: AddMoneyflowsModel[] = (this.generateEmptyAddMoneyflowsModel(response.settingNumberOfFreeMoneyflows));
       tempModel = tempModel.concat(this.generateAddMoneyflowsModelForPreDefMoneyflows(response.preDefMoneyflowTransport));
@@ -79,7 +78,7 @@ export class AddMoneyflowsComponent implements OnInit {
       for (let m of tempModel) {
         console.log(m);
       }
-      this.model = Observable.of<AddMoneyflowsModel[]>(tempModel);
+      this.model = tempModel;
 
     }
   }

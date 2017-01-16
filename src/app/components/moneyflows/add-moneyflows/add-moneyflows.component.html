@@ -13,7 +13,7 @@
     <label for="lastused" class="col-sm-2 col-form-label">verwendet am</label>
   </div>
 
-  <div class="form-group row" *ngFor="let mf of model| async ">
+  <div class="form-group row" *ngFor="let mf of model">
     <div class="col-lg-1" style="width: inherit !important; ">
       <input type="checkbox" id="add" name="add" [(ngModel)]="mf._add">
     </div>
@@ -35,7 +35,7 @@
     <div class="col-sm-2">
 
       <select class="form-control" id="contractpartner" [(ngModel)]="mf._contractpartnerId">
-        <option *ngFor="let cp of contractpartnerTransports | async" value="{{cp.id}}"
+        <option *ngFor="let cp of contractpartnerTransports" value="{{cp.id}}"
                 [selected]="cp.id == mf._contractpartnerId">{{cp.name}}
         </option>
       </select>
@@ -46,14 +46,14 @@
     </div>
     <div class="col-sm-2">
       <select class="form-control" id="postingaccount" [(ngModel)]="mf._postingAccountId">
-        <option *ngFor="let pa of postingAccountTransports | async" value="{{pa.id}}"
+        <option *ngFor="let pa of postingAccountTransports" value="{{pa.id}}"
                 [selected]="pa.id == mf._postingAccountId">{{pa.name}}
         </option>
       </select>
     </div>
     <div class="col-sm-2">
       <select class="form-control" id="capitalsource" [(ngModel)]="mf._capitalsourceId">
-        <option *ngFor="let cs of capitalsourceTransports | async" value="{{cs.id}}"
+        <option *ngFor="let cs of capitalsourceTransports" value="{{cs.id}}"
                 [selected]="cs.id == mf._capitalsourceId">{{cs.comment}}
         </option>
       </select>
