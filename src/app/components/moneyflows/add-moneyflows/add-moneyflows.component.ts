@@ -136,7 +136,9 @@ export class AddMoneyflowsComponent implements OnInit {
       model.setPostingAccountId(preDefMoneyflow.postingaccountid);
       model.setCapitalsourceId(preDefMoneyflow.capitalsourceid);
       model.setCapitalsourceComment(preDefMoneyflow.capitalsourcecomment);
-      model.setLastUsed(this.dateUtil.formatDate(new Date(preDefMoneyflow.lastUsed)));
+      if (preDefMoneyflow.lastUsed != null) {
+        model.setLastUsed(this.dateUtil.formatDate(new Date(preDefMoneyflow.lastUsed)));
+      }
       model.setIsPreDefMoneyflow(true);
 
       models.push(model);
