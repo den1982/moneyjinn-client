@@ -1,114 +1,123 @@
 <app-navbar></app-navbar>
 <div class="page-content">
-  <div class="form-group row  hidden-xs hidden-sm hidden-md">
-    <label for="add" class="col-lg-1 col-form-label" style="width: inherit !important; ">+</label>
-    <label for="privat" class="col-lg-1 col-form-label" style="width: inherit !important; ">pr</label>
-    <label for="bookingdate" class="col-lg-1 col-form-label">Buchungsdatum</label>
-    <label for="invoicdate" class="col-lg-1 col-form-label">Rechnungsdatum</label>
-    <label for="amount" class="col-lg-1 col-form-label">Betrag</label>
-    <label for="contractpartner" class="col-lg-2 col-form-label">Vertragspartner</label>
-    <label for="comment" class="col-lg-2 col-form-label">Kommentar</label>
-    <label for="postingaccount" class="col-lg-2 col-form-label">Buchungskonto</label>
-    <label for="capitalsource" class="col-lg-2 col-form-label">Kapitalquelle</label>
-    <label for="lastused" class="col-lg-2 col-form-label">verwendet am</label>
-  </div>
+  <form #addForm="ngForm" (ngSubmit)="processRequest()">
 
-  <div class="form-group row" *ngFor="let mf of model ">
-
-    <div class="col-lg-1" style="width: inherit !important; ">
-      <div class="form-group" style=" white-space:nowrap;">
-        <label for="add" class="visible-xs-inline visible-sm-inline visible-md-inline">+</label>
-        <input type="checkbox" id="add" name="add" [(ngModel)]="mf._add">
-      </div>
+    <div class="form-group row  hidden-xs hidden-sm hidden-md">
+      <label for="add" class="col-lg-1 col-form-label" style="width: inherit !important; ">+</label>
+      <label for="privat" class="col-lg-1 col-form-label" style="width: inherit !important; ">pr</label>
+      <label for="bookingdate" class="col-lg-1 col-form-label">Buchungsdatum</label>
+      <label for="invoicdate" class="col-lg-1 col-form-label">Rechnungsdatum</label>
+      <label for="amount" class="col-lg-1 col-form-label">Betrag</label>
+      <label for="contractpartner" class="col-lg-2 col-form-label">Vertragspartner</label>
+      <label for="comment" class="col-lg-2 col-form-label">Kommentar</label>
+      <label for="postingaccount" class="col-lg-2 col-form-label">Buchungskonto</label>
+      <label for="capitalsource" class="col-lg-2 col-form-label">Kapitalquelle</label>
+      <label for="lastused" class="col-lg-2 col-form-label">verwendet am</label>
     </div>
 
-    <div class="col-lg-1" style="width: inherit !important; ">
-      <div class="form-group" style=" white-space:nowrap;">
-        <label for="privat" class="visible-xs-inline visible-sm-inline visible-md-inline">pr</label>
-        <input type="checkbox" id="privat" name="privat" [(ngModel)]="mf._privat">
+    <div class="form-group row" *ngFor="let mf of model ">
+
+      <div class="col-lg-1" style="width: inherit !important; ">
+        <div class="form-group" style=" white-space:nowrap;">
+          <label for="add" class="visible-xs-inline visible-sm-inline visible-md-inline">+</label>
+          <input type="checkbox" id="add" name="add-{{mf._id}}" [(ngModel)]="mf._add">
+        </div>
       </div>
-    </div>
 
-    <div class="col-lg-1">
-      <div class="form-group" style=" white-space:nowrap;">
-
-        <label for="bookingdate" class="visible-xs-inline visible-sm-inline visible-md-inline">Buchungsdatum</label>
-        <input id="bookingdate" type="text" class="form-control" name="bookingdate" [(ngModel)]="mf._bookingdate">
+      <div class="col-lg-1" style="width: inherit !important; ">
+        <div class="form-group" style=" white-space:nowrap;">
+          <label for="privat" class="visible-xs-inline visible-sm-inline visible-md-inline">pr</label>
+          <input type="checkbox" id="privat" name="privat-{{mf._id}}" [(ngModel)]="mf._privat">
+        </div>
       </div>
-    </div>
-    <div class="col-lg-1">
-      <div class="form-group" style=" white-space:nowrap;">
 
-        <label for="invoicdate" class="visible-xs-inline visible-sm-inline visible-md-inline">Rechnungsdatum</label>
-        <input id="invoicdate" type="text" class="form-control" name="invoicdate" [(ngModel)]="mf._invoicdate">
+      <div class="col-lg-1">
+        <div class="form-group" style=" white-space:nowrap;">
+
+          <label for="bookingdate" class="visible-xs-inline visible-sm-inline visible-md-inline">Buchungsdatum</label>
+          <input id="bookingdate" type="text" class="form-control" name="bookingdate-{{mf._id}}"
+                 [(ngModel)]="mf._bookingdate">
+        </div>
       </div>
-    </div>
-    <div class="col-lg-1">
-      <div class="form-group" style=" white-space:nowrap;">
+      <div class="col-lg-1">
+        <div class="form-group" style=" white-space:nowrap;">
 
-        <label for="amount" class="visible-xs-inline visible-sm-inline visible-md-inline">Betrag</label>
-        <div class="input-group">
-          <span class="input-group-addon">&euro;</span>
-          <input id="amount" type="text" class="form-control currency" name="amount" [(ngModel)]="mf._amount">
+          <label for="invoicdate" class="visible-xs-inline visible-sm-inline visible-md-inline">Rechnungsdatum</label>
+          <input id="invoicdate" type="text" class="form-control" name="invoicdate-{{mf._id}}"
+                 [(ngModel)]="mf._invoicdate">
+        </div>
+      </div>
+      <div class="col-lg-1">
+        <div class="form-group" style=" white-space:nowrap;">
+
+          <label for="amount" class="visible-xs-inline visible-sm-inline visible-md-inline">Betrag</label>
+          <div class="input-group">
+            <span class="input-group-addon">&euro;</span>
+            <input id="amount" type="text" class="form-control currency" name="amount-{{mf._id}}"
+                   [(ngModel)]="mf._amount">
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="form-group" style=" white-space:nowrap;">
+
+          <label for="contractpartner"
+                 class="visible-xs-inline visible-sm-inline visible-md-inline">Vertragspartner</label>
+          <select class="form-control" name="contractpartner-{{mf._id}}" id="contractpartner"
+                  [(ngModel)]="mf._contractpartnerId">
+            <option *ngFor="let cp of contractpartnerTransports" value="{{cp.id}}"
+                    [selected]="cp.id == mf._contractpartnerId">{{cp.name}}
+            </option>
+          </select>
+
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="form-group" style=" white-space:nowrap;">
+
+          <label for="comment" class="visible-xs-inline visible-sm-inline visible-md-inline">Kommentar</label>
+          <input id="comment" type="text" class="form-control" name="comment-{{mf._id}}" id="comment"
+                 [(ngModel)]="mf._comment">
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="form-group" style=" white-space:nowrap;">
+
+          <label for="postingaccount"
+                 class="visible-xs-inline visible-sm-inline visible-md-inline">Buchungskonto</label>
+          <select class="form-control" name="postingaccount-{{mf._id}}" id="postingaccount"
+                  [(ngModel)]="mf._postingAccountId">
+            <option *ngFor="let pa of postingAccountTransports" value="{{pa.id}}"
+                    [selected]="pa.id == mf._postingAccountId">{{pa.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="form-group" style=" white-space:nowrap;">
+
+          <label for="capitalsource" class="visible-xs-inline visible-sm-inline visible-md-inline">Kapitalquelle</label>
+          <select class="form-control" name="capitalsource-{{mf._id}}" id="capitalsource"
+                  [(ngModel)]="mf._capitalsourceId">
+            <option *ngFor="let cs of capitalsourceTransports" value="{{cs.id}}"
+                    [selected]="cs.id == mf._capitalsourceId">{{cs.comment}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-lg-1">
+        <div class="form-group" style=" white-space:nowrap;">
+
+          <label for="lastused" class="visible-xs-inline visible-sm-inline visible-md-inline">verwendet am</label>
+          <span id="lastused">{{mf._lastUsed}}</span>
         </div>
       </div>
     </div>
-    <div class="col-lg-2">
-      <div class="form-group" style=" white-space:nowrap;">
 
-        <label for="contractpartner"
-               class="visible-xs-inline visible-sm-inline visible-md-inline">Vertragspartner</label>
-        <select class="form-control" id="contractpartner" [(ngModel)]="mf._contractpartnerId">
-          <option *ngFor="let cp of contractpartnerTransports" value="{{cp.id}}"
-                  [selected]="cp.id == mf._contractpartnerId">{{cp.name}}
-          </option>
-        </select>
 
-      </div>
+    <div class="col-lg-12 controls text-center">
+      <button type="submit" href="#" class="btn btn-primary">Absenden</button>
     </div>
-    <div class="col-lg-2">
-      <div class="form-group" style=" white-space:nowrap;">
-
-        <label for="comment" class="visible-xs-inline visible-sm-inline visible-md-inline">Kommentar</label>
-        <input id="comment" type="text" class="form-control" name="comment" [(ngModel)]="mf._comment">
-      </div>
-    </div>
-    <div class="col-lg-2">
-      <div class="form-group" style=" white-space:nowrap;">
-
-        <label for="postingaccount" class="visible-xs-inline visible-sm-inline visible-md-inline">Buchungskonto</label>
-        <select class="form-control" id="postingaccount" [(ngModel)]="mf._postingAccountId">
-          <option *ngFor="let pa of postingAccountTransports" value="{{pa.id}}"
-                  [selected]="pa.id == mf._postingAccountId">{{pa.name}}
-          </option>
-        </select>
-      </div>
-    </div>
-    <div class="col-lg-2">
-      <div class="form-group" style=" white-space:nowrap;">
-
-        <label for="capitalsource" class="visible-xs-inline visible-sm-inline visible-md-inline">Kapitalquelle</label>
-        <select class="form-control" id="capitalsource" [(ngModel)]="mf._capitalsourceId">
-          <option *ngFor="let cs of capitalsourceTransports" value="{{cs.id}}"
-                  [selected]="cs.id == mf._capitalsourceId">{{cs.comment}}
-          </option>
-        </select>
-      </div>
-    </div>
-
-    <div class="col-lg-1">
-      <div class="form-group" style=" white-space:nowrap;">
-
-        <label for="lastused" class="visible-xs-inline visible-sm-inline visible-md-inline">verwendet am</label>
-        <span id="lastused">{{mf._lastUsed}}</span>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="col-lg-12 controls text-center">
-    <button type="submit" href="#" class="btn btn-primary" (click)="processRequest()">Absenden
-    </button>
-  </div>
-
+  </form>
 </div>

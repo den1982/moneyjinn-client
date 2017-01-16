@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {RESTMoneyflowService} from "../../../services/rest/restmoneyflow.service";
 import {ShowAddMoneyflowsResponse} from "../../../model/rest/moneyflow/show-add-moneyflows-response";
 import {PostingAccountTransport} from "../../../model/rest/transport/posting-account-transport";
@@ -10,6 +10,7 @@ import {DateUtil} from "../../../util/date-util";
 import {MoneyflowTransport} from "../../../model/rest/transport/moneyflow-transport";
 import {CreateMoneyflowsRequest} from "../../../model/rest/moneyflow/create-moneyflows-request";
 import {CreateMoneyflowsResponse} from "../../../model/rest/moneyflow/create-moneyflows-response";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-add-moneyflows',
@@ -23,8 +24,29 @@ export class AddMoneyflowsComponent implements OnInit {
 
   model: AddMoneyflowsModel[];
 
+  addForm: NgForm;
+  @ViewChild('addForm') currentForm: NgForm;
+
+
   constructor(private restMoneyflowService: RESTMoneyflowService,
               private dateUtil: DateUtil) {
+  }
+
+
+  ngAfterViewChecked() {
+    this.formChanged();
+  }
+
+  formChanged() {
+    if (this.currentForm === this.addForm) {
+      return;
+    }
+    this.addForm = this.currentForm;
+    if (this.addForm) {
+      this.addForm.valueChanges
+        .debounceTime(500)
+        .subscribe(data => console.log(data));
+    }
   }
 
   private processRequest() {
