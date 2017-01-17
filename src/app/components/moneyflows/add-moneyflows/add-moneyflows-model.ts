@@ -15,6 +15,10 @@ export class AddMoneyflowsModel {
   private _isPreDefMoneyflow: boolean;
 
 
+  constructor(data) {
+    Object.assign(this, data);
+  }
+
   public getId(): number {
     return this._id;
   }

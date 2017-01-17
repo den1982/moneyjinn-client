@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {RESTMoneyflowService} from "../../../services/rest/restmoneyflow.service";
 import {ShowAddMoneyflowsResponse} from "../../../model/rest/moneyflow/show-add-moneyflows-response";
 import {PostingAccountTransport} from "../../../model/rest/transport/posting-account-transport";
@@ -10,7 +10,7 @@ import {DateUtil} from "../../../util/date-util";
 import {MoneyflowTransport} from "../../../model/rest/transport/moneyflow-transport";
 import {CreateMoneyflowsRequest} from "../../../model/rest/moneyflow/create-moneyflows-request";
 import {CreateMoneyflowsResponse} from "../../../model/rest/moneyflow/create-moneyflows-response";
-import {NgForm} from "@angular/forms";
+import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-add-moneyflows',
@@ -22,35 +22,91 @@ export class AddMoneyflowsComponent implements OnInit {
   capitalsourceTransports: CapitalsourceTransport[];
   contractpartnerTransports: ContractpartnerTransport[];
 
-  model: AddMoneyflowsModel[];
-
-  addForm: NgForm;
-  @ViewChild('addForm') currentForm: NgForm;
-
+  addForm: FormGroup;
+  dataLoaded: boolean = false;
 
   constructor(private restMoneyflowService: RESTMoneyflowService,
-              private dateUtil: DateUtil) {
+              private dateUtil: DateUtil,
+              private fb: FormBuilder) {
+    this.addForm = this.fb.group({
+      rows: this.fb.array([])
+    });
   }
 
-
-  ngAfterViewChecked() {
-    this.formChanged();
+  ngOnInit() {
+    this.restMoneyflowService.showAddMoneyflows(response => this.processShowResponseCallback(response));
   }
 
-  formChanged() {
-    if (this.currentForm === this.addForm) {
-      return;
+  private createFormGroup(model: AddMoneyflowsModel[]): FormGroup[] {
+    let group: FormGroup[] = [];
+
+    for (let m of model) {
+      group.push(this.fb.group({
+        _id: [m.getId()],
+        _add: [m.isAdd()],
+        _privat: [m.isPrivat()],
+        _bookingdate: [m.getBookingdate()],
+        _invoicedate: [m.getInvoicedate()],
+        _amount: [m.getAmount()],
+        _contractpartnerId: [m.getContractpartnerId()],
+        _comment: [m.getComment()],
+        _postingAccountId: [m.getPostingAccountId()],
+        _capitalsourceId: [m.getCapitalsourceId()],
+        _lastUsed: new FormControl({value: m.getLastUsed(), disabled: true}),
+        _isPreDefMoneyflow: [m.isPreDefMoneyflow()]
+      }))
     }
-    this.addForm = this.currentForm;
-    if (this.addForm) {
-      this.addForm.valueChanges
-        .debounceTime(500)
-        .subscribe(data => console.log(data));
+
+    return group;
+  }
+
+  private subscribeAddToggled() {
+    let rowsCtrl = (<any>this.addForm).controls.rows.controls;
+
+    for (let rowCtrl of rowsCtrl) {
+
+      let addCtrl = rowCtrl.controls._add.valueChanges;
+
+      addCtrl.subscribe(toggled => {
+        console.log(rowCtrl);
+        console.log('add toggled');
+
+        if (toggled == true) {
+
+          Object.keys(rowCtrl.controls).forEach(key => {
+            switch (key) {
+              case "_amount":
+              case "_bookingdate":
+              case "_comment":
+              case "_contractpartnerId":
+              case "_postingAccountId":
+              case "_capitalsourceId":
+                rowCtrl.controls[key].setValidators(Validators.required);
+                rowCtrl.controls[key].updateValueAndValidity();
+                break;
+            }
+          });
+        } else {
+          Object.keys(rowCtrl.controls).forEach(key => {
+            if (key != '_add') {
+              rowCtrl.controls[key].setValidators(null);
+              rowCtrl.controls[key].updateValueAndValidity();
+            }
+          })
+
+        }
+
+        console.log(rowCtrl);
+      })
     }
   }
 
-  private processRequest() {
-    this.addMoneyflows(this.model);
+  private processRequest({value, valid} : {value: any, valid: boolean}) {
+    let formModel: AddMoneyflowsModel[] = [];
+    for (let m of value["rows"]) {
+      formModel.push(new AddMoneyflowsModel(m));
+    }
+    this.addMoneyflows(formModel);
   }
 
   private addMoneyflows(moneyflows: AddMoneyflowsModel[]) {
@@ -83,10 +139,6 @@ export class AddMoneyflowsComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.restMoneyflowService.showAddMoneyflows(response => this.processShowResponseCallback(response));
-  }
-
   private processShowResponseCallback(response: ShowAddMoneyflowsResponse) {
 
     if (response != null) {
@@ -100,8 +152,14 @@ export class AddMoneyflowsComponent implements OnInit {
       for (let m of tempModel) {
         console.log(m);
       }
-      this.model = tempModel;
 
+      this.addForm = this.fb.group({
+        rows: this.fb.array(this.createFormGroup(tempModel))
+      });
+
+      this.subscribeAddToggled();
+
+      this.dataLoaded = true;
     }
   }
 
@@ -127,7 +185,7 @@ export class AddMoneyflowsComponent implements OnInit {
     let models: AddMoneyflowsModel[] = [];
 
     while (rows > 0) {
-      let model: AddMoneyflowsModel = new AddMoneyflowsModel;
+      let model: AddMoneyflowsModel = new AddMoneyflowsModel(null);
 
       model.setId(rows * -1);
       model.setAdd(false);
@@ -145,7 +203,7 @@ export class AddMoneyflowsComponent implements OnInit {
     let models: AddMoneyflowsModel[] = [];
 
     for (let preDefMoneyflow of preDefMoneyflows) {
-      let model: AddMoneyflowsModel = new AddMoneyflowsModel;
+      let model: AddMoneyflowsModel = new AddMoneyflowsModel(null);
 
       model.setId(preDefMoneyflow.id);
       model.setAdd(false);
