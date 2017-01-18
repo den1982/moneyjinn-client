@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <div class="page-content">
-  <form *ngIf="dataLoaded" [formGroup]="addForm" novalidate (ngSubmit)="processRequest(addForm)">
+  <form *ngIf="dataLoaded" [formGroup]="addForm" novalidate (ngSubmit)="processFormSubmit(addForm)">
     <div class="form-group row  hidden-xs hidden-sm hidden-md">
       <label class="col-lg-1 col-form-label" style="width: inherit !important; ">+</label>
       <label class="col-lg-1 col-form-label" style="width: inherit !important; ">pr</label>
@@ -10,8 +10,8 @@
       <label class="col-lg-2 col-form-label">Vertragspartner</label>
       <label class="col-lg-2 col-form-label">Kommentar</label>
       <label class="col-lg-2 col-form-label">Buchungskonto</label>
-      <label class="col-lg-2 col-form-label">Kapitalquelle</label>
-      <label class="col-lg-2 col-form-label">verwendet am</label>
+      <label class="col-lg-1 col-form-label">Kapitalquelle</label>
+      <label class="col-lg-1 col-form-label">verwendet am</label>
     </div>
     <div formArrayName="rows">
       <div class="form-group row" *ngFor="let row of addForm.controls.rows.controls; let i=index">
@@ -38,6 +38,14 @@
 
               <label class="visible-xs-inline visible-sm-inline visible-md-inline">Buchungsdatum</label>
               <input type="text" class="form-control" formControlName="_bookingdate">
+              <small *ngIf="addForm.controls.rows.controls[i].controls._bookingdate.hasError('required')"
+                     class="text-danger">
+                Buchungsdatum fehlt!
+              </small>
+              <small *ngIf="addForm.controls.rows.controls[i].controls._bookingdate.hasError('validateDate')"
+                     class="text-danger">
+                Datumsformat {{dateFormat}}
+              </small>
             </div>
           </div>
 
@@ -46,6 +54,10 @@
 
               <label class="visible-xs-inline visible-sm-inline visible-md-inline">Rechnungsdatum</label>
               <input type="text" class="form-control" formControlName="_invoicedate">
+              <small *ngIf="addForm.controls.rows.controls[i].controls._invoicedate.hasError('validateDate')"
+                     class="text-danger">
+                Datumsformat {{dateFormat}}
+              </small>
             </div>
           </div>
 
@@ -90,7 +102,7 @@
             </div>
           </div>
 
-          <div class="col-lg-2">
+          <div class="col-lg-1">
             <div class="form-group" style=" white-space:nowrap;">
               <label class="visible-xs-inline visible-sm-inline visible-md-inline">Kapitalquelle</label>
               <select class="form-control" formControlName="_capitalsourceId">

@@ -16,6 +16,8 @@ import {AddMoneyflowsComponent} from "./components/moneyflows/add-moneyflows/add
 import {RESTMoneyflowService} from "./services/rest/restmoneyflow.service";
 import {MoneyjinnDatePipe} from "./components/pipes/moneyjinn-date-pipe";
 import {DateUtil} from "./util/date-util";
+import {AddMoneyflowsMapper} from "./components/moneyflows/add-moneyflows/add-moneyflows-mapper";
+import {DateValidator} from "./components/validators/date-validator";
 
 export const routes: Routes = [
   {
@@ -61,7 +63,7 @@ export const routes: Routes = [
     RouterModule.forRoot(routes),
     ReactiveFormsModule
   ],
-  providers: [RESTUserService, RESTMoneyflowService, UserService, ErrorService, CheckLoginService, DateUtil],
+  providers: [RESTUserService, RESTMoneyflowService, UserService, ErrorService, CheckLoginService, DateUtil, AddMoneyflowsMapper, DateValidator],
   bootstrap: [AppComponent]
 })
 export class AppModule {
