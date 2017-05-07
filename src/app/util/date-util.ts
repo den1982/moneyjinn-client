@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {DateFormatter} from "@angular/common/src/pipes/intl";
+import { DatePipe } from '@angular/common';
 import {UserService} from "../services/user.service";
 import {isNumber} from "util";
 
@@ -12,7 +12,8 @@ export class DateUtil {
     let dateFormat: string = this.userService.getCurrentUserSettings().getSettingDateFormat();
     if (value) {
       let date = value instanceof Date ? value : new Date(value);
-      return DateFormatter.format(date, 'en', dateFormat);
+      let datePipe = new DatePipe("en-US");
+      return datePipe.transform(date, dateFormat);
     }
   }
 

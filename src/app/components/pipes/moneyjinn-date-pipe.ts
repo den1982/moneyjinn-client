@@ -1,7 +1,6 @@
 import {Pipe, PipeTransform, Injectable} from "@angular/core";
-import {DateFormatter} from "@angular/common/src/pipes/intl";
+import { DatePipe } from '@angular/common';
 import {UserService} from "../../services/user.service";
-import {isDate} from "@angular/core/src/facade/lang";
 
 /*
 
@@ -18,9 +17,11 @@ export class MoneyjinnDatePipe implements PipeTransform {
 
   transform(value: any, args: string[]): any {
     let dateFormat: string = this.userService.getCurrentUserSettings().getSettingDateFormat();
-    if (value && isDate(value)) {
-      var date = value instanceof Date ? value : new Date(value);
-      return DateFormatter.format(date, 'en', dateFormat);
+    if (!isNaN(+value)) {
+      let date = value instanceof Date ? value : new Date(value);
+      let datePipe = new DatePipe("en-US");
+      return datePipe.transform(date, dateFormat);
+
     }
   }
 }
